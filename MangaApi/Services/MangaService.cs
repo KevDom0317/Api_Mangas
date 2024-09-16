@@ -1,32 +1,43 @@
 namespace MangaApi.Services;
 using MangaApi.Models;
+using MangaApi.Infraestructure.Repositories;
 
 public class MangaService
 {
-    private readonly List<Manga> _mangas = new();
-
-    public IEnumerable<Manga> GetAll() => _mangas;
-
-    public Manga? GetById(int id) => _mangas.FirstOrDefault(m => m.Id == id);
-
-    public void Add(Manga manga) => _mangas.Add(manga);
-
-    public bool Update(int id, Manga updatedManga)
+    private readonly MangaRepository _mangaRepository;
+    public MangaService(MangaRepository mangaRepository)
     {
-        var manga = GetById(id);
-        if (manga is null) return false;
-
-        manga.Title = updatedManga.Title;
-        manga.Author = updatedManga.Author;
-        return true;
+        this._mangaRepository = mangaRepository;
     }
 
-    public bool Delete(int id)
+    public IEnumerable<Manga> GetAll()
+    {
+        return _mangaRepository.GetAll();
+    }
+
+    public Manga GetById(int id)
+    {
+        return _mangaRepository.GetById(id);
+    }
+
+    public void Add(Manga manga)
+    {
+        _mangaRepository.Add(manga);
+    }
+
+    public void Update(Manga mangaToUpdate)
+    {
+        var manga = GetById(mangaToUpdate.Id);
+        if (manga.Id > 0)
+        {
+            _mangaRepository.Update(mangaToUpdate);
+        }
+    }
+
+    public void Delete(int id)
     {
         var manga = GetById(id);
-        if (manga is null) return false;
-
-        _mangas.Remove(manga);
-        return true;
+        if (manga.Id > 0)
+        _mangaRepository.Delete(id);
     }
 }

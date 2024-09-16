@@ -31,3 +31,5 @@ C:\Users\DELL\OneDrive\Documentos\GitHub\Api_Mangas\MangaApi\obj\Debug\net8.0\re
 C:\Users\DELL\OneDrive\Documentos\GitHub\Api_Mangas\MangaApi\obj\Debug\net8.0\MangaApi.pdb
 C:\Users\DELL\OneDrive\Documentos\GitHub\Api_Mangas\MangaApi\obj\Debug\net8.0\MangaApi.genruntimeconfig.cache
 C:\Users\DELL\OneDrive\Documentos\GitHub\Api_Mangas\MangaApi\obj\Debug\net8.0\ref\MangaApi.dll
+C:\Users\DELL\OneDrive\Documentos\GitHub\Api_Mangas\MangaApi\bin\Debug\net8.0\Infraestructure\Data\javerages.library.data.json
+C:\Users\DELL\OneDrive\Documentos\GitHub\Api_Mangas\MangaApi\obj\Debug\net8.0\MangaApi.sourcelink.json

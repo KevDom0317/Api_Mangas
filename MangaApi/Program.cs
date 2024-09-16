@@ -1,10 +1,12 @@
 using MangaApi.Services;  // Para importar MangaService
 using MangaApi.Models;    // Para importar Manga
+using MangaApi.Infraestructure.Repositories; // Para importar MangaRepository
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Registrar MangaService como un singleton en el contenedor de dependencias
-builder.Services.AddSingleton<MangaService>();
+// Registrar MangaRepository y MangaService en el contenedor de dependencias
+builder.Services.AddScoped<MangaRepository>();
+builder.Services.AddScoped<MangaService>();
 
 // Agregar servicios para la generación de documentación Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -19,13 +21,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-// Obtener el servicio MangaService a través de inyección de dependencias
-var mangaService = app.Services.GetRequiredService<MangaService>();
+//app.UseHttpsRedirection();
 
 // Endpoint para obtener todos los mangas
-app.MapGet("/mangas", () =>
+app.MapGet("/mangas", (MangaService mangaService) =>
 {
     return Results.Ok(mangaService.GetAll());
 })
@@ -33,7 +32,7 @@ app.MapGet("/mangas", () =>
 .WithOpenApi();
 
 // Endpoint para obtener un manga por ID
-app.MapGet("/mangas/{id}", (int id) =>
+app.MapGet("/mangas/{id}", (int id, MangaService mangaService) =>
 {
     var manga = mangaService.GetById(id);
     return manga is not null ? Results.Ok(manga) : Results.NotFound();
@@ -42,7 +41,7 @@ app.MapGet("/mangas/{id}", (int id) =>
 .WithOpenApi();
 
 // Endpoint para agregar un nuevo manga
-app.MapPost("/mangas", (Manga manga) =>
+app.MapPost("/mangas", (Manga manga, MangaService mangaService) =>
 {
     mangaService.Add(manga);
     return Results.Created($"/mangas/{manga.Id}", manga);
@@ -51,19 +50,29 @@ app.MapPost("/mangas", (Manga manga) =>
 .WithOpenApi();
 
 // Endpoint para actualizar un manga existente
-app.MapPut("/mangas/{id}", (int id, Manga updatedManga) =>
+app.MapPut("/mangas/{id}", (int id, Manga updatedManga, MangaService mangaService) =>
 {
-    var success = mangaService.Update(id, updatedManga);
-    return success ? Results.NoContent() : Results.NotFound();
+    var existingManga = mangaService.GetById(id);
+    if (existingManga is not null)
+    {
+        mangaService.Update(updatedManga);
+        return Results.NoContent();
+    }
+    return Results.NotFound();
 })
 .WithName("UpdateManga")
 .WithOpenApi();
 
 // Endpoint para eliminar un manga por ID
-app.MapDelete("/mangas/{id}", (int id) =>
+app.MapDelete("/mangas/{id}", (int id, MangaService mangaService) =>
 {
-    var success = mangaService.Delete(id);
-    return success ? Results.NoContent() : Results.NotFound();
+    var existingManga = mangaService.GetById(id);
+    if (existingManga is not null)
+    {
+        mangaService.Delete(id);
+        return Results.NoContent();
+    }
+    return Results.NotFound();
 })
 .WithName("DeleteManga")
 .WithOpenApi();
