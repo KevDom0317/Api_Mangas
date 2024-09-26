@@ -33,3 +33,5 @@ C:\Users\DELL\OneDrive\Documentos\GitHub\Api_Mangas\MangaApi\obj\Debug\net8.0\Ma
 C:\Users\DELL\OneDrive\Documentos\GitHub\Api_Mangas\MangaApi\obj\Debug\net8.0\ref\MangaApi.dll
 C:\Users\DELL\OneDrive\Documentos\GitHub\Api_Mangas\MangaApi\bin\Debug\net8.0\Infraestructure\Data\javerages.library.data.json
 C:\Users\DELL\OneDrive\Documentos\GitHub\Api_Mangas\MangaApi\obj\Debug\net8.0\MangaApi.sourcelink.json
+C:\Users\DELL\OneDrive\Documentos\GitHub\Api_Mangas\MangaApi\bin\Debug\net8.0\AutoMapper.dll
+C:\Users\DELL\OneDrive\Documentos\GitHub\Api_Mangas\MangaApi\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

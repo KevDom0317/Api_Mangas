@@ -1,8 +1,13 @@
 using MangaApi.Services;  // Para importar MangaService
 using MangaApi.Models;    // Para importar Manga
 using MangaApi.Infraestructure.Repositories; // Para importar MangaRepository
+using AutoMapper;
+using MangaApi.Services.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Agregar AutoMapper
+builder.Services.AddAutoMapper(typeof(ResponseMappingProfile), typeof(RequestCreateMappingProfile));
 
 // Registrar MangaRepository y MangaService en el contenedor de dependencias
 builder.Services.AddScoped<MangaRepository>();
@@ -21,7 +26,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+//app.UseHttpsRedirection(); // Puedes habilitar esto si usas HTTPS
 
 // Endpoint para obtener todos los mangas
 app.MapGet("/mangas", (MangaService mangaService) =>
